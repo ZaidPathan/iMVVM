@@ -20,6 +20,8 @@ class PlayerVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewModel.delegate = self
         setupPlayer()
     }
 
@@ -40,34 +42,57 @@ class PlayerVC: UIViewController {
     }
     
     @IBAction func playerButtonClicked(_ sender: Any) {
-        
+        viewModel.playerButtonClicked()
+    }
+    
+    
+    @IBAction func tap(_ sender: UITapGestureRecognizer) {
+        viewModel.playerTapped()
     }
 }
 
 extension PlayerVC: PlayerViewModelDelegate {
-    func pvModelDidChangeMaxTime(maxTimeString: String) {
+    func playFromBeginning() {
+        player.playFromBeginning()
+    }
+    
+    func playFromCurrentTime() {
+        player.playFromCurrentTime()
+    }
+    
+    func pause() {
+        player.pause()
+    }
+    
+    var playerState: PlaybackState {
+        return player.playbackState
+    }
+    
+    func pvModelDidChange(maxTimeString: String) {
         maxTimeLabel.text = maxTimeString
     }
     
-    func pvModelDidChangeCurrentTime(currentTimeString: String) {
+    func pvModelDidChange(currentTimeString: String) {
         currentTimeLabel.text = currentTimeString
+        progressView.progress = (Float(currentTimeString) ?? 00) / (Float(viewModel.maxTimeString) ?? 0)
     }
     
-    func pvModelDidChangeControlState(areControlsHidden: Bool) {
+    func pvModelDidChange(areControlsHidden: Bool) {
         playerButton.isHidden = areControlsHidden
         progressView.isHidden = areControlsHidden
         maxTimeLabel.isHidden = areControlsHidden
         currentTimeLabel.isHidden = areControlsHidden
     }
     
-    func pvModelDidChangePlayerButtonImage(playerButtonImage: UIImage) {
+    func pvModelDidChange(playerButtonImage: UIImage) {
         playerButton.setImage(playerButtonImage, for: .normal)
     }
 }
 
 extension PlayerVC: PlayerPlaybackDelegate {
     func playerCurrentTimeDidChange(_ player: Player) {
-        
+        viewModel.maxTimeString = String(format: "%.2f", player.maximumDuration)
+        viewModel.currentTimeString = String(format: "%.2f", player.currentTime)
     }
     
     func playerPlaybackWillStartFromBeginning(_ player: Player) {
@@ -89,7 +114,7 @@ extension PlayerVC: PlayerDelegate {
     }
     
     func playerPlaybackStateDidChange(_ player: Player) {
-        
+        viewModel.playerState = player.playbackState
     }
     
     func playerBufferingStateDidChange(_ player: Player) {
