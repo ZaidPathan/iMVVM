@@ -39,40 +39,6 @@ class PlayerViewModel {
         }
     }
     
-    func playerStopped() {
-        playerButtonImage = #imageLiteral(resourceName: "play")
-        hideControlsAfter3Seconds(shouldHide: false)
-    }
-    
-    func hideControlsAfter3Seconds(shouldHide: Bool) {
-        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { (timer) in
-            self.areControlsHidden = shouldHide
-        }
-    }
-    
-    func playerPlaying() {
-        playerButtonImage = #imageLiteral(resourceName: "pause")
-        hideControlsAfter3Seconds(shouldHide: true)
-    }
-    
-    func playerPaused() {
-        playerButtonImage = #imageLiteral(resourceName: "play")
-        hideControlsAfter3Seconds(shouldHide: false)
-    }
-    
-    func playerFailed() {
-        playerButtonImage = #imageLiteral(resourceName: "play")
-        hideControlsAfter3Seconds(shouldHide: false)
-    }
-    
-    func playerTapped() {
-        areControlsHidden = !areControlsHidden
-        
-        if !areControlsHidden {
-            hideControlsAfter3Seconds(shouldHide: true)
-        }
-    }
-    
     var currentTimeString: String = String() {
         didSet {
             delegate?.pvModelDidChange(currentTimeString: currentTimeString)
@@ -111,6 +77,40 @@ class PlayerViewModel {
             delegate?.playFromCurrentTime()
         case .failed:
             delegate?.playFromBeginning()
+        }
+    }
+    
+    func playerStopped() {
+        playerButtonImage = #imageLiteral(resourceName: "play")
+        hideControlsAfter3Seconds(shouldHide: false)
+    }
+    
+    func hideControlsAfter3Seconds(shouldHide: Bool) {
+        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { (timer) in
+            self.areControlsHidden = shouldHide
+        }
+    }
+    
+    func playerPlaying() {
+        playerButtonImage = #imageLiteral(resourceName: "pause")
+        hideControlsAfter3Seconds(shouldHide: true)
+    }
+    
+    func playerPaused() {
+        playerButtonImage = #imageLiteral(resourceName: "play")
+        hideControlsAfter3Seconds(shouldHide: false)
+    }
+    
+    func playerFailed() {
+        playerButtonImage = #imageLiteral(resourceName: "play")
+        hideControlsAfter3Seconds(shouldHide: false)
+    }
+    
+    func playerTapped() {
+        areControlsHidden = !areControlsHidden
+        
+        if !areControlsHidden {
+            hideControlsAfter3Seconds(shouldHide: true)
         }
     }
 }
