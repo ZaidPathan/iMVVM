@@ -25,7 +25,7 @@ class PlayerVC: UIViewController {
         setupPlayer()
     }
 
-    func setupPlayer() {
+    private func setupPlayer() {
         for childVC in childViewControllers {
             if childVC is Player {
                 if let player = childVC as? Player {

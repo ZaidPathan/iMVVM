@@ -11,7 +11,6 @@
 		150E0FD620E1FB1200967770 /* PlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150E0FD520E1FB1200967770 /* PlayerTests.swift */; };
 		150E0FD720E1FB3100967770 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15894DBD20DA7F9000C578DF /* PlayerViewModel.swift */; };
 		15894D9720DA60F100C578DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15894D9620DA60F100C578DF /* AppDelegate.swift */; };
-		15894D9920DA60F100C578DF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15894D9820DA60F100C578DF /* ViewController.swift */; };
 		15894D9E20DA60F300C578DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15894D9D20DA60F300C578DF /* Assets.xcassets */; };
 		15894DB020DA61D300C578DF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15894DAF20DA61D300C578DF /* LaunchScreen.storyboard */; };
 		15894DBA20DA7D7C00C578DF /* Player.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15894DB920DA7D7C00C578DF /* Player.storyboard */; };
@@ -38,7 +37,6 @@
 		150E0FD520E1FB1200967770 /* PlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTests.swift; sourceTree = "<group>"; };
 		15894D9320DA60F100C578DF /* iMVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMVVM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15894D9620DA60F100C578DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		15894D9820DA60F100C578DF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		15894D9D20DA60F300C578DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		15894DA220DA60F300C578DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		15894DAF20DA61D300C578DF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -111,7 +109,6 @@
 				15894DA920DA612F00C578DF /* View */,
 				15894DA820DA612A00C578DF /* Model */,
 				15894D9620DA60F100C578DF /* AppDelegate.swift */,
-				15894D9820DA60F100C578DF /* ViewController.swift */,
 				15894D9D20DA60F300C578DF /* Assets.xcassets */,
 				15894DA220DA60F300C578DF /* Info.plist */,
 			);
@@ -370,7 +367,6 @@
 			files = (
 				15894DBC20DA7F8600C578DF /* PlayerVC.swift in Sources */,
 				15894DBE20DA7F9000C578DF /* PlayerViewModel.swift in Sources */,
-				15894D9920DA60F100C578DF /* ViewController.swift in Sources */,
 				15894D9720DA60F100C578DF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
