@@ -23,6 +23,7 @@ protocol PlayerViewModelDelegate {
 class PlayerViewModel {
     var videoURL: URL?
     var delegate: PlayerViewModelDelegate?
+    var timer: Timer?
     
     var playerState: PlaybackState = .stopped {
         didSet {
@@ -86,8 +87,16 @@ class PlayerViewModel {
     }
     
     func hideControlsAfter3Seconds(shouldHide: Bool) {
-        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { (timer) in
-            self.areControlsHidden = shouldHide
+        print("called")
+        timer = nil
+        timer?.invalidate()
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { (timer) in
+            if timer == self.timer {
+                if self.playerState != .paused {
+                    self.areControlsHidden = shouldHide
+                }
+            }
         }
     }
     
