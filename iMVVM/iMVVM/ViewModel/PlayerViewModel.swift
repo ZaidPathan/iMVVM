@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import UIKit
 import Player
 
 protocol PlayerViewModelDelegate {
@@ -58,7 +57,7 @@ class PlayerViewModel {
         }
     }
     
-    var playerButtonImage: UIImage = #imageLiteral(resourceName: "pause") {
+    var playerButtonImage: UIImage =  #imageLiteral(resourceName: "pause") {
         didSet {
             delegate?.pvModelDidChange(playerButtonImage: playerButtonImage)
         }
@@ -82,12 +81,11 @@ class PlayerViewModel {
     }
     
     func playerStopped() {
-        playerButtonImage = #imageLiteral(resourceName: "play")
+        playerButtonImage =  #imageLiteral(resourceName: "play")
         hideControlsAfter3Seconds(shouldHide: false)
     }
     
     func hideControlsAfter3Seconds(shouldHide: Bool) {
-        print("called")
         timer = nil
         timer?.invalidate()
         
@@ -101,17 +99,17 @@ class PlayerViewModel {
     }
     
     func playerPlaying() {
-        playerButtonImage = #imageLiteral(resourceName: "pause")
+        playerButtonImage =  #imageLiteral(resourceName: "pause")
         hideControlsAfter3Seconds(shouldHide: true)
     }
     
     func playerPaused() {
-        playerButtonImage = #imageLiteral(resourceName: "play")
+        playerButtonImage =  #imageLiteral(resourceName: "play")
         hideControlsAfter3Seconds(shouldHide: false)
     }
     
     func playerFailed() {
-        playerButtonImage = #imageLiteral(resourceName: "play")
+        playerButtonImage =  #imageLiteral(resourceName: "play")
         hideControlsAfter3Seconds(shouldHide: false)
     }
     

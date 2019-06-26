@@ -1,0 +1,4 @@
+github "Alamofire/Alamofire" "4.7.2"
+github "ZaidSA/ABVideoRangeSlider" "20e639424b1f8c04dda5f9611cc470e40e0f54ab"
+github "ninjaprox/NVActivityIndicatorView" "4.2.1"
+github "stephencelis/SQLite.swift" "0.11.5"

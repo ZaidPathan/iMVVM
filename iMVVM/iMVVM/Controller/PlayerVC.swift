@@ -20,12 +20,11 @@ class PlayerVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        viewModel.delegate = self
         setupPlayer()
     }
 
     private func setupPlayer() {
+        viewModel.delegate = self
         for childVC in childViewControllers {
             if childVC is Player {
                 if let player = childVC as? Player {
@@ -37,8 +36,8 @@ class PlayerVC: UIViewController {
         player.url = viewModel.videoURL
         player.playerDelegate = self
         player.playbackDelegate = self
-
-        player.playFromBeginning()
+        
+        viewModel.delegate?.playFromBeginning()
     }
     
     @IBAction func playerButtonClicked(_ sender: Any) {
@@ -125,3 +124,4 @@ extension PlayerVC: PlayerDelegate {
         
     }
 }
+

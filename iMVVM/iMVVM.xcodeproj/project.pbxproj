@@ -104,10 +104,10 @@
 		15894D9520DA60F100C578DF /* iMVVM */ = {
 			isa = PBXGroup;
 			children = (
+				15894DA820DA612A00C578DF /* Model */,
+				15894DA920DA612F00C578DF /* View */,
 				15894DAB20DA613A00C578DF /* ViewModel */,
 				15894DAA20DA613300C578DF /* Controller */,
-				15894DA920DA612F00C578DF /* View */,
-				15894DA820DA612A00C578DF /* Model */,
 				15894D9620DA60F100C578DF /* AppDelegate.swift */,
 				15894D9D20DA60F300C578DF /* Assets.xcassets */,
 				15894DA220DA60F300C578DF /* Info.plist */,
@@ -550,7 +550,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ZaidPathan.iMVVM;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ZaidPathan.iMVVM.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -569,7 +569,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ZaidPathan.iMVVM;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ZaidPathan.iMVVM.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

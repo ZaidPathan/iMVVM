@@ -1,0 +1,16 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+def common
+    pod "Player", "~> 0.8.0"
+end
+
+target 'iMVVM' do
+  use_frameworks!
+  common
+end
+
+target 'iMVVMTests' do
+    use_frameworks!
+    common
+end

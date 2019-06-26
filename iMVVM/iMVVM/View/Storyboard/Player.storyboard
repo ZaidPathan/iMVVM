@@ -97,7 +97,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="148" y="-342.27886056971516"/>
+            <point key="canvasLocation" x="-105" y="-351"/>
         </scene>
         <!--Player-->
         <scene sceneID="m5M-CL-gep">
@@ -112,7 +112,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="etz-PZ-RLe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="148" y="375"/>
+            <point key="canvasLocation" x="657" y="-351"/>
         </scene>
     </scenes>
 </document>

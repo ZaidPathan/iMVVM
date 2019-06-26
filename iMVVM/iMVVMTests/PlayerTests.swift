@@ -33,7 +33,7 @@ class PlayerTests: XCTestCase {
         //Are controls hidden after 3 seconds?
         let expectControlsHiddenAfter3Seconds = XCTestExpectation(description: "Controls are hidden")
         
-        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { (timer) in
+        Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (timer) in
             if self.viewModel.areControlsHidden {
                 expectControlsHiddenAfter3Seconds.fulfill()
             }
@@ -61,7 +61,6 @@ class PlayerTests: XCTestCase {
     func testVideoPlayingFailed() {
         
     }
-    
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
