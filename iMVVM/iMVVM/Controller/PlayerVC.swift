@@ -15,35 +15,32 @@ class PlayerVC: UIViewController {
     @IBOutlet weak var maxTimeLabel: UILabel!
     @IBOutlet weak var playerButton: UIButton!
     @IBOutlet weak var progressView: UIProgressView!
-    var player:Player!
-    let viewModel = PlayerViewModel(videoURL: URL(string: "https://player.vimeo.com/external/207561527.hd.mp4?s=a672f4505af1cd98c666607a1e9980ee39c08a86&profile_id=119&oauth2_token_id=57447761&download=1")!)
+    private let viewModel = PlayerViewModel(videoURL: URL(string: "https://player.vimeo.com/external/207561527.hd.mp4?s=a672f4505af1cd98c666607a1e9980ee39c08a86&profile_id=119&oauth2_token_id=57447761&download=1")!)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPlayer()
+        setupViewModel()
     }
 
     private func setupPlayer() {
-        viewModel.delegate = self
         for childVC in childViewControllers {
             if childVC is Player {
                 if let player = childVC as? Player {
-                    self.player = player
+                    viewModel.player = player
                 }
             }
         }
-        
-        player.url = viewModel.videoURL
-        player.playerDelegate = self
-        player.playbackDelegate = self
-        
-        viewModel.delegate?.playFromBeginning()
+    }
+
+    private func setupViewModel() {
+        viewModel.delegate = self
+        viewModel.playerButtonClicked()
     }
     
     @IBAction func playerButtonClicked(_ sender: Any) {
         viewModel.playerButtonClicked()
     }
-    
     
     @IBAction func tap(_ sender: UITapGestureRecognizer) {
         viewModel.playerTapped()
@@ -51,29 +48,13 @@ class PlayerVC: UIViewController {
 }
 
 extension PlayerVC: PlayerViewModelDelegate {
-    func playFromBeginning() {
-        player.playFromBeginning()
-    }
-    
-    func playFromCurrentTime() {
-        player.playFromCurrentTime()
-    }
-    
-    func pause() {
-        player.pause()
-    }
-    
-    var playerState: PlaybackState {
-        return player.playbackState
-    }
-    
     func pvModelDidChange(maxTimeString: String) {
         maxTimeLabel.text = maxTimeString
     }
     
-    func pvModelDidChange(currentTimeString: String) {
+    func pvModelDidChange(currentTimeString: String, progress: Float) {
         currentTimeLabel.text = currentTimeString
-        progressView.progress = (Float(currentTimeString) ?? 00) / (Float(viewModel.maxTimeString) ?? 0)
+        progressView.progress = progress
     }
     
     func pvModelDidChange(areControlsHidden: Bool) {
@@ -87,41 +68,3 @@ extension PlayerVC: PlayerViewModelDelegate {
         playerButton.setImage(playerButtonImage, for: .normal)
     }
 }
-
-extension PlayerVC: PlayerPlaybackDelegate {
-    func playerCurrentTimeDidChange(_ player: Player) {
-        viewModel.maxTimeString = String(format: "%.2f", player.maximumDuration)
-        viewModel.currentTimeString = String(format: "%.2f", player.currentTime)
-    }
-    
-    func playerPlaybackWillStartFromBeginning(_ player: Player) {
-        
-    }
-    
-    func playerPlaybackDidEnd(_ player: Player) {
-        
-    }
-    
-    func playerPlaybackWillLoop(_ player: Player) {
-        
-    }
-}
-
-extension PlayerVC: PlayerDelegate {
-    func playerReady(_ player: Player) {
-        
-    }
-    
-    func playerPlaybackStateDidChange(_ player: Player) {
-        viewModel.playerState = player.playbackState
-    }
-    
-    func playerBufferingStateDidChange(_ player: Player) {
-        
-    }
-    
-    func playerBufferTimeDidChange(_ bufferTime: Double) {
-        
-    }
-}
-

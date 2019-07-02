@@ -10,21 +10,27 @@ import Foundation
 import Player
 
 protocol PlayerViewModelDelegate {
-    func pvModelDidChange(currentTimeString: String)
+    func pvModelDidChange(currentTimeString: String, progress: Float)
     func pvModelDidChange(maxTimeString: String)
     func pvModelDidChange(areControlsHidden: Bool)
     func pvModelDidChange(playerButtonImage: UIImage)
-    func playFromBeginning()
-    func playFromCurrentTime()
-    func pause()
 }
 
-class PlayerViewModel {
-    var videoURL: URL?
+class PlayerViewModel: NSObject {
     var delegate: PlayerViewModelDelegate?
-    var timer: Timer?
-    
-    var playerState: PlaybackState = .stopped {
+    var player:Player? {
+        didSet {
+            player?.playerDelegate = self
+            player?.playbackDelegate = self
+
+            player?.url = videoURL
+        }
+    }
+
+    private var videoURL: URL?
+    private var timer: Timer?
+
+    private var playerState: PlaybackState = .stopped {
         didSet {
             switch playerState {
             case .stopped:
@@ -39,25 +45,26 @@ class PlayerViewModel {
         }
     }
     
-    var currentTimeString: String = String() {
+    private var currentTimeString: String = String() {
         didSet {
-            delegate?.pvModelDidChange(currentTimeString: currentTimeString)
+            let progress = (Float(currentTimeString) ?? 00) / (Float(maxTimeString) ?? 0)
+            delegate?.pvModelDidChange(currentTimeString: currentTimeString, progress: progress)
         }
     }
     
-    var maxTimeString: String = String() {
+    private var maxTimeString: String = String() {
         didSet {
             delegate?.pvModelDidChange(maxTimeString: maxTimeString)
         }
     }
     
-    var areControlsHidden: Bool = false {
+    private var areControlsHidden: Bool = false {
         didSet {
             delegate?.pvModelDidChange(areControlsHidden: areControlsHidden)
         }
     }
     
-    var playerButtonImage: UIImage =  #imageLiteral(resourceName: "pause") {
+    private var playerButtonImage: UIImage =  #imageLiteral(resourceName: "pause") {
         didSet {
             delegate?.pvModelDidChange(playerButtonImage: playerButtonImage)
         }
@@ -65,27 +72,36 @@ class PlayerViewModel {
     
     init(videoURL: URL) {
         self.videoURL = videoURL
+        super.init()
     }
     
     func playerButtonClicked() {
         switch playerState {
         case .stopped:
-            delegate?.playFromBeginning()
+            player?.playFromBeginning()
         case .playing:
-            delegate?.pause()
+            player?.pause()
         case .paused:
-            delegate?.playFromCurrentTime()
+            player?.playFromCurrentTime()
         case .failed:
-            delegate?.playFromBeginning()
+            player?.playFromBeginning()
         }
     }
-    
-    func playerStopped() {
+
+    func playerTapped() {
+        areControlsHidden = !areControlsHidden
+
+        if !areControlsHidden {
+            hideControlsAfter3Seconds(shouldHide: true)
+        }
+    }
+
+    private func playerStopped() {
         playerButtonImage =  #imageLiteral(resourceName: "play")
         hideControlsAfter3Seconds(shouldHide: false)
     }
     
-    func hideControlsAfter3Seconds(shouldHide: Bool) {
+    private func hideControlsAfter3Seconds(shouldHide: Bool) {
         timer = nil
         timer?.invalidate()
         
@@ -98,26 +114,57 @@ class PlayerViewModel {
         }
     }
     
-    func playerPlaying() {
+    private func playerPlaying() {
         playerButtonImage =  #imageLiteral(resourceName: "pause")
         hideControlsAfter3Seconds(shouldHide: true)
     }
     
-    func playerPaused() {
+    private func playerPaused() {
         playerButtonImage =  #imageLiteral(resourceName: "play")
         hideControlsAfter3Seconds(shouldHide: false)
     }
     
-    func playerFailed() {
+    private func playerFailed() {
         playerButtonImage =  #imageLiteral(resourceName: "play")
         hideControlsAfter3Seconds(shouldHide: false)
     }
-    
-    func playerTapped() {
-        areControlsHidden = !areControlsHidden
-        
-        if !areControlsHidden {
-            hideControlsAfter3Seconds(shouldHide: true)
-        }
+}
+
+extension PlayerViewModel: PlayerDelegate {
+    func playerReady(_ player: Player) {
+
+    }
+
+    func playerPlaybackStateDidChange(_ player: Player) {
+        playerState = player.playbackState
+    }
+
+    func playerBufferingStateDidChange(_ player: Player) {
+
+    }
+
+    func playerBufferTimeDidChange(_ bufferTime: Double) {
+
+    }
+}
+
+
+
+extension PlayerViewModel: PlayerPlaybackDelegate {
+    func playerCurrentTimeDidChange(_ player: Player) {
+        maxTimeString = String(format: "%.2f", player.maximumDuration)
+        currentTimeString = String(format: "%.2f", player.currentTime)
+    }
+
+    func playerPlaybackWillStartFromBeginning(_ player: Player) {
+
+    }
+
+    func playerPlaybackDidEnd(_ player: Player) {
+
+    }
+
+    func playerPlaybackWillLoop(_ player: Player) {
+
     }
 }
