@@ -30,8 +30,9 @@ class PlayerViewModel: NSObject {
     private var videoURL: URL?
     private var timer: Timer?
 
-    private var playerState: PlaybackState = .stopped {
+    var playerState: PlaybackState = .stopped {
         didSet {
+            print(playerState)
             switch playerState {
             case .stopped:
                 playerStopped()
@@ -45,7 +46,7 @@ class PlayerViewModel: NSObject {
         }
     }
     
-    private var currentTimeString: String = String() {
+    var currentTimeString: String = String() {
         didSet {
             let progress = (Float(currentTimeString) ?? 00) / (Float(maxTimeString) ?? 0)
             delegate?.pvModelDidChange(currentTimeString: currentTimeString, progress: progress)
@@ -58,7 +59,7 @@ class PlayerViewModel: NSObject {
         }
     }
     
-    private var areControlsHidden: Bool = false {
+    var areControlsHidden: Bool = false {
         didSet {
             delegate?.pvModelDidChange(areControlsHidden: areControlsHidden)
         }
