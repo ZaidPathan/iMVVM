@@ -15,71 +15,47 @@ class PlayerTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
+
+        //
         viewModel = PlayerViewModel(videoURL: url)
         viewModel.player = Player()
-    }
-    
-    func testSetup() {
-        XCTAssertEqual(viewModel.areControlsHidden, false)
-        XCTAssertEqual(viewModel.currentTimeString, String())
-    }
-    
-    func testVideoWillBegin() {
 
-        XCTAssertEqual(viewModel.playerState, .stopped)
+    }
+    // Test driven 🧪🚗👨‍💻 development
+    //
+
+    //
+    
+
+    func testInitialState() {
+        XCTAssertTrue(viewModel.playerState == .stopped)
         viewModel.playerButtonClicked()
 
-        let playingExpectation = XCTestExpectation(description: "Playing Now")
-
-        Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (timer) in
-            if self.viewModel.playerState == .playing {
-                playingExpectation.fulfill()
-            }
-        }
-
-        wait(for: [playingExpectation], timeout: 3)
-
-        XCTAssertEqual(viewModel.playerState, .playing)
-
-        let expectControlsHiddenAfter3Seconds = XCTestExpectation(description: "Controls are hidden")
+        let playingExpactation = XCTestExpectation(description: "Playing...")
 
         Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { (timer) in
-            if self.viewModel.areControlsHidden {
-                expectControlsHiddenAfter3Seconds.fulfill()
+            if self.viewModel.playerState == .playing {
+                playingExpactation.fulfill()
             }
         }
 
-        wait(for: [expectControlsHiddenAfter3Seconds], timeout: 4)
+        wait(for: [playingExpactation], timeout: 4)
 
-        viewModel.playerTapped()
-        XCTAssertEqual(self.viewModel.areControlsHidden, false)
+        viewModel.playerButtonClicked()
+
+        XCTAssertTrue(viewModel.playerState == .paused)
+
+        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { (timer) in
+            XCTAssertTrue(self.viewModel.areControlsHidden == false)
+        }
     }
-    
-    func testVideoDidBegin() {
-        
-    }
-    
-    func testAfter3SecondsOfPlaying() {
-        
-    }
-    
-    func testVideoEndPlaying() {
-        
-    }
-    
-    func testVideoPlayingFailed() {
-        
-    }
+
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
+
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {

@@ -9,6 +9,7 @@
 import Foundation
 import Player
 
+//
 protocol PlayerViewModelDelegate {
     func pvModelDidChange(currentTimeString: String, progress: Float)
     func pvModelDidChange(maxTimeString: String)
@@ -17,6 +18,7 @@ protocol PlayerViewModelDelegate {
 }
 
 class PlayerViewModel: NSObject {
+    //
     var delegate: PlayerViewModelDelegate?
     var player:Player? {
         didSet {
@@ -26,9 +28,6 @@ class PlayerViewModel: NSObject {
             player?.url = videoURL
         }
     }
-
-    private var videoURL: URL?
-    private var timer: Timer?
 
     var playerState: PlaybackState = .stopped {
         didSet {
@@ -45,26 +44,30 @@ class PlayerViewModel: NSObject {
             }
         }
     }
-    
+
     var currentTimeString: String = String() {
         didSet {
             let progress = (Float(currentTimeString) ?? 00) / (Float(maxTimeString) ?? 0)
             delegate?.pvModelDidChange(currentTimeString: currentTimeString, progress: progress)
         }
     }
-    
-    private var maxTimeString: String = String() {
-        didSet {
-            delegate?.pvModelDidChange(maxTimeString: maxTimeString)
-        }
-    }
-    
+
     var areControlsHidden: Bool = false {
         didSet {
             delegate?.pvModelDidChange(areControlsHidden: areControlsHidden)
         }
     }
-    
+
+    //
+    private var videoURL: URL?
+    private var timer: Timer?
+
+    private var maxTimeString: String = String() {
+        didSet {
+            delegate?.pvModelDidChange(maxTimeString: maxTimeString)
+        }
+    }
+
     private var playerButtonImage: UIImage =  #imageLiteral(resourceName: "pause") {
         didSet {
             delegate?.pvModelDidChange(playerButtonImage: playerButtonImage)
@@ -75,7 +78,8 @@ class PlayerViewModel: NSObject {
         self.videoURL = videoURL
         super.init()
     }
-    
+
+    //
     func playerButtonClicked() {
         switch playerState {
         case .stopped:
@@ -97,15 +101,16 @@ class PlayerViewModel: NSObject {
         }
     }
 
+    //
     private func playerStopped() {
         playerButtonImage =  #imageLiteral(resourceName: "play")
         hideControlsAfter3Seconds(shouldHide: false)
     }
-    
+
     private func hideControlsAfter3Seconds(shouldHide: Bool) {
         timer = nil
         timer?.invalidate()
-        
+
         timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { (timer) in
             if timer == self.timer {
                 if self.playerState != .paused {
@@ -114,23 +119,24 @@ class PlayerViewModel: NSObject {
             }
         }
     }
-    
+
     private func playerPlaying() {
         playerButtonImage =  #imageLiteral(resourceName: "pause")
         hideControlsAfter3Seconds(shouldHide: true)
     }
-    
+
     private func playerPaused() {
         playerButtonImage =  #imageLiteral(resourceName: "play")
         hideControlsAfter3Seconds(shouldHide: false)
     }
-    
+
     private func playerFailed() {
         playerButtonImage =  #imageLiteral(resourceName: "play")
         hideControlsAfter3Seconds(shouldHide: false)
     }
 }
 
+//
 extension PlayerViewModel: PlayerDelegate {
     func playerReady(_ player: Player) {
 
@@ -149,8 +155,7 @@ extension PlayerViewModel: PlayerDelegate {
     }
 }
 
-
-
+//
 extension PlayerViewModel: PlayerPlaybackDelegate {
     func playerCurrentTimeDidChange(_ player: Player) {
         maxTimeString = String(format: "%.2f", player.maximumDuration)
@@ -169,3 +174,4 @@ extension PlayerViewModel: PlayerPlaybackDelegate {
 
     }
 }
+
